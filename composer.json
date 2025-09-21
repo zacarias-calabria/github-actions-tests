@@ -1,0 +1,19 @@
+{
+    "name": "zacarias/learn-github-actions",
+    "type": "project",
+    "require": {
+        "react/socket": "^1.16",
+        "react/http": "^1.11"
+    },
+    "autoload": {
+        "psr-4": {
+            "Zacarias\\LearnGithubActions\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Zacarías",
+            "email": "zacarias@wichipu.com"
+        }
+    ]
+}
