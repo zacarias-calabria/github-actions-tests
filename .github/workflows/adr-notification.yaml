@@ -1,0 +1,106 @@
+# .github/workflows/adr-notification.yml
+name: ADR Approval Notification
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - "docs/adr/**/*.md"
+
+jobs:
+  check-adr-approval:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # To compare with the previous commit
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          files: |
+            docs/adr/**/*.md
+            adr/**/*.md
+
+      - name: Check ADR status and notify
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          #!/bin/bash
+
+          # To extrat ADR status
+          get_adr_status() {
+            local file="$1"
+            # Search "status: "approved"" lines
+            grep -i -E "^status\:\s*\"approved\"$" "$file" || echo ""
+          }
+
+          # To extract ADR title
+          get_adr_title() {
+            local file="$1"
+            # Find the first H1 heading
+            grep -m1 "^# " "$file" | sed 's/^# //' || basename "$file" .md
+          }
+
+          # Process changed files
+          approved_adrs=""
+
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "Checking file: $file"
+            
+            if [[ -f "$file" ]]; then
+              status=$(get_adr_status "$file")
+              
+              if [[ ! -z "$status" ]]; then
+                echo "Found approved ADR: $file"
+                title=$(get_adr_title "$file")
+                
+                if [[ ! -z "$approved_adrs" ]]; then
+                  approved_adrs="$approved_adrs\n"
+                fi
+                approved_adrs="$approved_adrs• *$title* ($file)"
+              fi
+            fi
+          done
+
+          # Send Slack notification if there are approved ADRs
+          if [[ ! -z "$approved_adrs" ]]; then
+            echo "Sending Slack notification..."
+            
+            curl -X POST -H 'Content-type: application/json' \
+              --data "{
+                \"text\": \":white_check_mark: *New Approved ADR*\",
+                \"blocks\": [
+                  {
+                    \"type\": \"header\",
+                    \"text\": {
+                      \"type\": \"plain_text\",
+                      \"text\": \"📋 New Approved ADR\"
+                    }
+                  },
+                  {
+                    \"type\": \"section\",
+                    \"text\": {
+                      \"type\": \"mrkdwn\",
+                      \"text\": \"Next Arquitectural Decissions are approved:\\n\\n$approved_adrs\"
+                    }
+                  },
+                  {
+                    \"type\": \"context\",
+                    \"elements\": [
+                      {
+                        \"type\": \"mrkdwn\",
+                        \"text\": \"Integrated in develop by <${{ github.event.pusher.html_url }}|${{ github.event.pusher.name }}> • <${{ github.event.compare }}|View changes>\"
+                      }
+                    ]
+                  }
+                ]
+              }" \
+              ${{ secrets.SLACK_WEBHOOK_URL }}
+          else
+            echo "No approved ADRs found"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
