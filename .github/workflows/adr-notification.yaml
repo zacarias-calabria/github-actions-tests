@@ -60,7 +60,7 @@ jobs:
                 if [[ ! -z "$approved_adrs" ]]; then
                   approved_adrs="$approved_adrs\n"
                 fi
-                approved_adrs="$approved_adrs• *$title* ($file)"
+                approved_adrs="$approved_adrs• *$title* (<https://github.com/${{ github.repository }}/blob/develop/$file|$file>)"
               fi
             fi
           done
@@ -92,7 +92,7 @@ jobs:
                     \"elements\": [
                       {
                         \"type\": \"mrkdwn\",
-                        \"text\": \"Integrated in develop by <${{ github.event.pusher.html_url }}|${{ github.event.pusher.name }}> • <${{ github.event.compare }}|View changes>\nIntegrated in develop by <https://github.com/${{ github.actor }}|${{ github.actor }}> • <${{ github.event.compare }}|View changes>\nIntegrated in develop by <${{ github.actor.url }}|${{ github.actor }}> • <${{ github.event.compare }}|View changes>\"
+                        \"text\": \"Integrated in develop by <https://github.com/${{ github.actor }}|${{ github.actor }}> • <${{ github.event.compare }}|View changes>\nIntegrated in develop by <${{ github.actor.url }}|${{ github.actor }}> • <${{ github.event.compare }}|View changes>\"
                       }
                     ]
                   }
