@@ -132,3 +132,5 @@ Related documentation:
 - Change 1: Don't trigger ADR notification.
 - Change 2: Don't trigger ADR notification.
 - Change 3: Triger ADR notification.
+- Change 4: Don't trigger ADR notification.
+- Change 5: Triger ADR notification.
