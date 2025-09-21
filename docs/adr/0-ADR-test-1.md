@@ -127,3 +127,6 @@ Related documentation:
 - [Ratchet WebSocket Documentation](http://socketo.me/)
 - [Internal PHP Performance Guidelines](../guidelines/php-performance.md)
 - [Load Testing Procedures](../testing/load-testing.md)
+
+## Test changes
+- Change 1: Don't trigger ADR notification.
