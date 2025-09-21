@@ -1,5 +1,5 @@
 ---
-status: "proposed"
+status: "approved"
 date: 2024-12-15
 decision-makers: [Zacarías Blanco, Maria Rodriguez, Carlos Silva]
 consulted: [ReactPHP Community, Senior PHP Developers, DevOps Team]
@@ -133,3 +133,4 @@ Related documentation:
 - Change 2: Don't trigger ADR notification.
 - Change 3: Triger ADR notification.
 - Change 4: Don't trigger ADR notification.
+- Change 5: Triger ADR notification.
