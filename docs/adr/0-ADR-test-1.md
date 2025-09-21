@@ -130,3 +130,4 @@ Related documentation:
 
 ## Test changes
 - Change 1: Don't trigger ADR notification.
+- Change 2: Don't trigger ADR notification.
