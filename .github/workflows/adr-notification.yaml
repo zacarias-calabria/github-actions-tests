@@ -92,7 +92,7 @@ jobs:
                     \"elements\": [
                       {
                         \"type\": \"mrkdwn\",
-                        \"text\": \"Integrated in develop by <${{ github.event.pusher.html_url }}|${{ github.event.pusher.name }}> • <${{ github.event.compare }}|View changes>\"
+                        \"text\": \"Integrated in develop by <${{ github.event.pusher.html_url }}|${{ github.event.pusher.name }}> • <${{ github.event.compare }}|View changes>\nIntegrated in develop by <https://github.com/${{ github.actor }}|${{ github.actor }}> • <${{ github.event.compare }}|View changes>\nIntegrated in develop by <${{ github.actor.url }}|${{ github.actor }}> • <${{ github.event.compare }}|View changes>\"
                       }
                     ]
                   }
